@@ -18,7 +18,7 @@ Main Features
 * Federal Income Tax Withholding
 * Contribution Registers and Contacts to ease paying and filing forms 940 and 941
 * Unit tested rules and rates for 2016 from IRS Publication 15 (Circular E)
-
+* External Wages field on Employee Contract for switching to Odoo mid-year. (e.g. FUTA wages YTD)
 
 ===
 Use

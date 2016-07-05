@@ -1,4 +1,4 @@
-from openerp import models, fields, api, tools
+from openerp import models, fields
 
 
 class USHrContract(models.Model):
@@ -10,3 +10,5 @@ class USHrContract(models.Model):
         ('married', 'Married'),
         ('married_as_single', 'Married but at Single Rate'),
     ], string='Federal W4 Filing Status')
+
+    external_wages = fields.Float(string='External Existing Wages')

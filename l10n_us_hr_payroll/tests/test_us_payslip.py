@@ -32,7 +32,7 @@ class TestUsPayslip(common.TransactionCase):
             'name': 'Jared'
         })
 
-    def _createContract(self, employee, salary, schedule_pay='monthly', w4_allowances=0, w4_filing_status='single'):
+    def _createContract(self, employee, salary, schedule_pay='monthly', w4_allowances=0, w4_filing_status='single', external_wages=0.0,):
         return self.env['hr.contract'].create({
             'date_start': '2016-01-01',
             'date_end': '2016-12-31',
@@ -44,7 +44,8 @@ class TestUsPayslip(common.TransactionCase):
             'working_hours': self.ref('resource.timesheet_group1'),
             'schedule_pay': schedule_pay,
             'w4_allowances': w4_allowances,
-            'w4_filing_status': w4_filing_status
+            'w4_filing_status': w4_filing_status,
+            'external_wages': external_wages,
         })
 
     def _createPayslip(self, employee, date_from, date_to):
@@ -239,3 +240,42 @@ class TestUsPayslip(common.TransactionCase):
         cats = self._getCategories(payslip)
 
         self.assertPayrollEqual(cats['FED_INC_WITHHOLD'], expected_withholding)
+
+    def test_2016_taxes_with_external(self):
+        ## tax rates
+        FICA_SS = -0.062
+        FICA_M = -0.0145
+        FUTA = -0.06
+        FICA_M_ADD = -0.009
+
+        ## tax maximums
+        FICA_SS_MAX_WAGE = 118500.0
+        FICA_M_MAX_WAGE = float_info.max
+        FICA_M_ADD_START_WAGE = 200000.0
+        FUTA_MAX_WAGE = 7000.0
+
+        # social security salary
+        salary = FICA_M_ADD_START_WAGE
+        external_wages = 6000.0
+
+        employee = self._createEmployee()
+
+        contract = self._createContract(employee, salary, external_wages=external_wages)
+
+        self._log('2016 tax first payslip:')
+        payslip = self._createPayslip(employee, '2016-01-01', '2016-01-31')
+
+        payslip.compute_sheet()
+
+        cats = self._getCategories(payslip)
+
+        self.assertPayrollEqual(cats['FICA_EMP_SS_WAGES'], FICA_SS_MAX_WAGE - external_wages)
+        self.assertPayrollEqual(cats['FICA_EMP_SS'], cats['FICA_EMP_SS_WAGES'] * FICA_SS)
+        self.assertPayrollEqual(cats['FICA_EMP_M_WAGES'], salary)
+        self.assertPayrollEqual(cats['FICA_EMP_M'], cats['FICA_EMP_M_WAGES'] * FICA_M)
+        self.assertPayrollEqual(cats['FICA_EMP_M_ADD_WAGES'], external_wages)
+        self.assertPayrollEqual(cats['FICA_EMP_M_ADD'], cats['FICA_EMP_M_ADD_WAGES'] * FICA_M_ADD)
+        self.assertPayrollEqual(cats['FICA_COMP_SS'], cats['FICA_EMP_SS'])
+        self.assertPayrollEqual(cats['FICA_COMP_M'], cats['FICA_EMP_M'])
+        self.assertPayrollEqual(cats['FUTA_WAGES'], FUTA_MAX_WAGE - external_wages)
+        self.assertPayrollEqual(cats['FUTA'], cats['FUTA_WAGES'] * FUTA)

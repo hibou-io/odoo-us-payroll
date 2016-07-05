@@ -92,6 +92,7 @@
         <field name="amount_python_compute">
 ###
 ytd = payslip.sum('FICA_EMP_SS_WAGES_2016', '2016-01-01', '2017-01-01')
+ytd += contract.external_wages
 remaining = 118500.0 - ytd
 if remaining &lt;= 0.0:
     result = 0
@@ -123,6 +124,7 @@ else:
 ###
 ADD_M = 200000.0
 norm_med_ytd = payslip.sum('FICA_EMP_M_WAGES_2016', '2016-01-01', '2017-01-01')
+norm_med_ytd += contract.external_wages
 norm_med_cur = categories.FICA_EMP_M_WAGES
 if ADD_M &gt; norm_med_ytd:
     diff = ADD_M - norm_med_ytd
@@ -633,6 +635,7 @@ result = -val
         <field name="amount_python_compute">
 ###
 ytd = payslip.sum('FUTA_WAGES_2016', '2016-01-01', '2017-01-01')
+ytd += contract.external_wages
 remaining = 7000.0 - ytd
 if remaining &lt;= 0.0:
     result = 0
