@@ -124,7 +124,6 @@ else:
 ###
 ADD_M = 200000.0
 norm_med_ytd = payslip.sum('FICA_EMP_M_WAGES_2016', '2016-01-01', '2017-01-01')
-norm_med_ytd += contract.external_wages
 norm_med_cur = categories.FICA_EMP_M_WAGES
 if ADD_M &gt; norm_med_ytd:
     diff = ADD_M - norm_med_ytd
@@ -188,19 +187,23 @@ result = categories.FICA_EMP_M_ADD_WAGES
         <field name="name">Federal Income Withholding - Single (2016)</field>
         <field name="code">FED_INC_WITHHOLD_2016_S</field>
         <field name="condition_select">python</field>
-        <field name="condition_python">result = (contract.w4_filing_status != 'married')</field>
+        <field name="condition_python">result = (contract.w4_filing_status != 'married' and contract.w4_filing_status)</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
 wages = categories.GROSS
 allowances = contract.w4_allowances
+is_nra = contract.w4_is_nonresident_alien
 schedule_pay = contract.schedule_pay
 val = 0.00
+additional = contract.w4_additional_withholding
 
 ###
 # Single WEEKLY
 ###
 if 'weekly' == schedule_pay:
     wages -= allowances * 77.90
+    if is_nra:
+        wages += 43.30
 
     if wages &gt; 43 and wages &lt;= 222:
         val = 0.00 + ((wages - 43) * 0.10)
@@ -228,6 +231,8 @@ if 'weekly' == schedule_pay:
 ###
 elif 'bi-weekly' == schedule_pay:
     wages -= allowances * 155.80
+    if is_nra:
+        wages += 86.50
 
     if wages &gt; 87 and wages &lt;= 443:
         val = 0.00 + ((wages - 87) * 0.10)
@@ -255,6 +260,8 @@ elif 'bi-weekly' == schedule_pay:
 ###
 elif 'semi-monthly' == schedule_pay:  # impossible
     wages -= allowances * 168.80
+    if is_nra:
+        wages += 93.80
 
     if wages &gt; 94 and wages &lt;= 480:
         val = 0.00 + ((wages - 94) * 0.10)
@@ -282,6 +289,8 @@ elif 'semi-monthly' == schedule_pay:  # impossible
 ###
 elif 'monthly' == schedule_pay:
     wages -= allowances * 337.50
+    if is_nra:
+        wages += 187.50
 
     if wages &gt; 188 and wages &lt;= 960:
         val = 0.00 + ((wages - 188) * 0.10)
@@ -309,6 +318,8 @@ elif 'monthly' == schedule_pay:
 ###
 elif 'quarterly' == schedule_pay:
     wages -= allowances * 1012.50
+    if is_nra:
+        wages += 562.50
 
     if wages &gt; 563 and wages &lt;= 2881:
         val = 0.00 + ((wages - 563) * 0.10)
@@ -336,6 +347,8 @@ elif 'quarterly' == schedule_pay:
 ###
 elif 'semi-annually' == schedule_pay:
     wages -= allowances * 2025.00
+    if is_nra:
+        wages += 1125.0
 
     if wages &gt; 1125 and wages &lt;= 5763:
         val = 0.00 + ((wages - 1125) * 0.10)
@@ -363,6 +376,8 @@ elif 'semi-annually' == schedule_pay:
 ###
 elif 'annually' == schedule_pay:
     wages -= allowances * 4050.00
+    if is_nra:
+        wages += 2250.0
 
     if wages &gt; 2250 and wages &lt;= 11525:
         val = 0.00 + ((wages - 2250) * 0.10)
@@ -387,7 +402,8 @@ elif 'annually' == schedule_pay:
 
 else:
     raise Exception('Invalid schedule_pay="' + schedule_pay + '" for W4 Allowance calculation')
-result = -val
+
+result = -(val + additional)
         </field>
         <field name="register_id" ref="contrib_register_eftps_941"/>
     </record>
@@ -402,14 +418,18 @@ result = -val
         <field name="amount_python_compute">
 wages = categories.GROSS
 allowances = contract.w4_allowances
+is_nra = contract.w4_is_nonresident_alien
 schedule_pay = contract.schedule_pay
 val = 0.00
+additional = contract.w4_additional_withholding
 
 ###
 # Married WEEKLY
 ###
 if 'weekly' == schedule_pay:
     wages -= allowances * 77.90
+    if is_nra:
+        wages += 43.30
 
     if wages &gt; 164 and wages &lt;= 521:
         val = 0.00 + ((wages - 164) * 0.10)
@@ -437,6 +457,8 @@ if 'weekly' == schedule_pay:
 ###
 elif 'bi-weekly' == schedule_pay:
     wages -= allowances * 155.80
+    if is_nra:
+        wages += 86.50
 
     if wages &gt; 329 and wages &lt;= 1042:
         val = 0.00 + ((wages - 329) * 0.10)
@@ -464,6 +486,8 @@ elif 'bi-weekly' == schedule_pay:
 ###
 elif 'semi-monthly' == schedule_pay:  # impossible
     wages -= allowances * 168.80
+    if is_nra:
+        wages += 93.80
 
     if wages &gt; 356 and wages &lt;= 1129:
         val = 0.00 + ((wages - 356) * 0.10)
@@ -491,6 +515,8 @@ elif 'semi-monthly' == schedule_pay:  # impossible
 ###
 elif 'monthly' == schedule_pay:
     wages -= allowances * 337.50
+    if is_nra:
+        wages += 187.50
 
     if wages &gt; 713 and wages &lt;= 2258:
         val = 0.00 + ((wages - 713) * 0.10)
@@ -518,6 +544,8 @@ elif 'monthly' == schedule_pay:
 ###
 elif 'quarterly' == schedule_pay:
     wages -= allowances * 1012.50
+    if is_nra:
+        wages += 562.50
 
     if wages &gt; 2138 and wages &lt;= 6775:
         val = 0.00 + ((wages - 2138) * 0.10)
@@ -545,6 +573,8 @@ elif 'quarterly' == schedule_pay:
 ###
 elif 'semi-annually' == schedule_pay:
     wages -= allowances * 2025.00
+    if is_nra:
+        wages += 1125.0
 
     if wages &gt; 4275 and wages &lt;= 13550:
         val = 0.00 + ((wages - 4275) * 0.10)
@@ -572,6 +602,8 @@ elif 'semi-annually' == schedule_pay:
 ###
 elif 'annually' == schedule_pay:
     wages -= allowances * 4050.00
+    if is_nra:
+        wages += 2250.0
 
     if wages &gt; 8550 and wages &lt;= 27100:
         val = 0.00 + ((wages - 8550) * 0.10)
@@ -596,7 +628,8 @@ elif 'annually' == schedule_pay:
 
 else:
     raise Exception('Invalid schedule_pay="' + schedule_pay + '" for W4 Allowance calculation')
-result = -val
+
+result = -(val + additional)
         </field>
         <field name="register_id" ref="contrib_register_eftps_941"/>
     </record>
@@ -630,7 +663,8 @@ result = -val
         <field name="category_id" ref="hr_payroll_futa_wages"/>
         <field name="name">FUTA Federal Unemployment - Wages (2016)</field>
         <field name="code">FUTA_WAGES_2016</field>
-        <field name="condition_select">none</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = (contract.futa_type != contract.FUTA_TYPE_EXEMPT)</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
 ###
@@ -651,10 +685,11 @@ else:
         <field name="category_id" ref="hr_payroll_futa"/>
         <field name="name">FUTA Federal Unemployment (2016)</field>
         <field name="code">FUTA_2016</field>
-        <field name="condition_select">none</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = (contract.futa_type != contract.FUTA_TYPE_EXEMPT)</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-result_rate = -6
+result_rate = -(contract.futa_rate_2016)
 result = categories.FUTA_WAGES
         </field>
         <field name="register_id" ref="contrib_register_eftps_940"/>
