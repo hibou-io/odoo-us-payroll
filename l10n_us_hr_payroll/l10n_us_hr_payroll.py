@@ -24,7 +24,7 @@ class USHrContract(models.Model):
         (FUTA_TYPE_EXEMPT, 'Exempt (0%)'),
         (FUTA_TYPE_NORMAL, 'Normal Net Rate (0.6%)'),
         (FUTA_TYPE_BASIC, 'Basic Rate (6%)'),
-    ], string="Federal Unemployment Tax Type (FUTA)", default='0.6')
+    ], string="Federal Unemployment Tax Type (FUTA)", default='normal')
 
     futa_rate_2016 = fields.Float(string="Federal Unemployment Rate 2016", compute="compute_futa_rate_2016")
 
