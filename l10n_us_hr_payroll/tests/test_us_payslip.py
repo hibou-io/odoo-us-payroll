@@ -8,6 +8,14 @@ from openerp.tools.float_utils import float_round as odoo_float_round
 from openerp.addons.l10n_us_hr_payroll.l10n_us_hr_payroll import USHrContract
 
 
+def process_payslip(payslip):
+    try:
+        #v9
+        payslip.process_sheet()
+    except AttributeError:
+        payslip.action_payslip_done()
+
+
 class TestUsPayslip(common.TransactionCase):
     debug = False
     _logger = getLogger(__name__)
@@ -94,4 +102,3 @@ class TestUsPayslip(common.TransactionCase):
 
     def assertPayrollEqual(self, first, second):
         self.assertAlmostEqual(first, second, self.payroll_digits)
-

@@ -1,4 +1,4 @@
-from .test_us_payslip import TestUsPayslip
+from .test_us_payslip import TestUsPayslip, process_payslip
 
 from openerp.addons.l10n_us_hr_payroll.l10n_us_hr_payroll import USHrContract
 
@@ -52,7 +52,7 @@ class TestUsPayslip2016(TestUsPayslip):
         self.assertPayrollEqual(cats['FUTA_WAGES'], FUTA_MAX_WAGE)
         self.assertPayrollEqual(cats['FUTA'], cats['FUTA_WAGES'] * FUTA)
 
-        payslip.process_sheet()
+        process_payslip(payslip)
 
         # Make a new payslip, this one will have maximums for FICA Social Security Wages
 
@@ -77,7 +77,7 @@ class TestUsPayslip2016(TestUsPayslip):
         self.assertPayrollEqual(cats['FUTA_WAGES'], 0)
         self.assertPayrollEqual(cats['FUTA'], 0)
 
-        payslip.process_sheet()
+        process_payslip(payslip)
 
         # Make a new payslip, this one will have reached Medicare Additional (employee only)
 
@@ -92,7 +92,7 @@ class TestUsPayslip2016(TestUsPayslip):
         self.assertPayrollEqual(cats['FICA_EMP_M_ADD_WAGES'], FICA_M_ADD_START_WAGE - (salary * 2))  # aka 40k
         self.assertPayrollEqual(cats['FICA_EMP_M_ADD'], cats['FICA_EMP_M_ADD_WAGES'] * FICA_M_ADD)
 
-        payslip.process_sheet()
+        process_payslip(payslip)
 
         # Make a new payslip, this one will have all salary as Medicare Additional
 
@@ -107,7 +107,7 @@ class TestUsPayslip2016(TestUsPayslip):
         self.assertPayrollEqual(cats['FICA_EMP_M_ADD_WAGES'], salary)
         self.assertPayrollEqual(cats['FICA_EMP_M_ADD'], cats['FICA_EMP_M_ADD_WAGES'] * FICA_M_ADD)
 
-        payslip.process_sheet()
+        process_payslip(payslip)
 
 
     def test_2016_fed_income_withholding_single(self):
