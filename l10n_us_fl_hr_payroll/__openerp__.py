@@ -5,7 +5,7 @@
     'license': 'AGPL-3',
     'category': 'Localization',
     'depends': ['l10n_us_hr_payroll'],
-    'version': '0.9.0',
+    'version': '2017.0.0',
     'description': """
 USA::Florida Payroll Rules.
 ==================
@@ -21,6 +21,7 @@ USA::Florida Payroll Rules.
         'us_fl_hr_payroll_view.xml',
         'data/base.xml',
         'data/rules_2016.xml',
+        'data/rules_2017.xml',
         'data/final.xml',
     ],
     'installable': True
