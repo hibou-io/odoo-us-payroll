@@ -20,9 +20,11 @@ USA Payroll Rules.
 
     'auto_install': False,
     'website': 'https://hibou.io/',
-    'data':[
+    'data': [
         'l10n_us_hr_payroll_view.xml',
-        'l10n_us_hr_payroll_data.xml',
+        'data/base.xml',
+        'data/rules_2016.xml',
+        'data/final.xml',
     ],
     'installable': True
 }
