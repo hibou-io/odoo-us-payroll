@@ -10,7 +10,7 @@ class TestUsOhPayslip(TestUsPayslip):
     ###
 
     def test_2016_taxes(self):
-        salary = 5000.0;
+        salary = 5000.0
 
         ## tax maximums
         OH_UNEMP_MAX_WAGE = 9000.0
@@ -58,7 +58,7 @@ class TestUsOhPayslip(TestUsPayslip):
 
 
     def test_2016_taxes_with_external(self):
-        salary = 5000.0;
+        salary = 5000.0
         external_wages = 6000.0
 
         employee = self._createEmployee()
@@ -84,7 +84,7 @@ class TestUsOhPayslip(TestUsPayslip):
 
 
     def test_2016_taxes_with_state_exempt(self):
-        salary = 5000.0;
+        salary = 5000.0
         external_wages = 6000.0
 
         employee = self._createEmployee()
