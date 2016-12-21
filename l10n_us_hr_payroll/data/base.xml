@@ -718,5 +718,31 @@ result = categories.FUTA_WAGES
         <field name="parent_id" ref="hr_payroll.structure_base"/>
     </record>
 
+
+<!-- Salary Rules -->
+    <!-- Company Contributions -->
+    <record id="hr_payroll_rules_fica_comp_ss" model="hr.salary.rule">
+        <field name="sequence" eval="440"/>
+        <field name="category_id" ref="hr_payroll_fica_comp_ss"/>
+        <field name="name">FICA Company Social Security</field>
+        <field name="code">FICA_COMP_SS</field>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = categories.FICA_EMP_SS</field>
+        <field name="register_id" ref="contrib_register_eftps_941"/>
+        <field name="appears_on_payslip" eval="False"/>
+    </record>
+    <record id="hr_payroll_rules_fica_comp_m" model="hr.salary.rule">
+        <field name="sequence" eval="441"/>
+        <field name="category_id" ref="hr_payroll_fica_comp_m"/>
+        <field name="name">FICA Company Medicare</field>
+        <field name="code">FICA_COMP_M</field>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = categories.FICA_EMP_M</field>
+        <field name="register_id" ref="contrib_register_eftps_941"/>
+        <field name="appears_on_payslip" eval="False"/>
+    </record>
+
     </data>
 </openerp>

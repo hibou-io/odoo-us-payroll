@@ -27,6 +27,7 @@ class USHrContract(models.Model):
     ], string="Federal Unemployment Tax Type (FUTA)", default='normal')
 
     futa_rate_2016 = fields.Float(string="Federal Unemployment Rate 2016", compute="compute_futa_rate_2016")
+    futa_rate_2017 = fields.Float(string="Federal Unemployment Rate 2017", compute="compute_futa_rate_2017")
 
     @api.multi
     def compute_futa_rate_2016(self):
@@ -37,3 +38,13 @@ class USHrContract(models.Model):
                 contract.futa_rate_2016 = 0.6
             else:
                 contract.futa_rate_2016 = 6.0
+
+    @api.multi
+    def compute_futa_rate_2017(self):
+        for contract in self:
+            if contract.futa_type == self.FUTA_TYPE_EXEMPT:
+                contract.futa_rate_2017 = 0.0
+            elif contract.futa_type == self.FUTA_TYPE_NORMAL:
+                contract.futa_rate_2017 = 0.6
+            else:
+                contract.futa_rate_2017 = 6.0

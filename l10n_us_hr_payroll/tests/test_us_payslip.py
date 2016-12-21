@@ -61,7 +61,7 @@ class TestUsPayslip(common.TransactionCase):
 
         return self.env['hr.contract'].create({
             'date_start': '2016-01-01',
-            'date_end': '2016-12-31',
+            'date_end': '2030-12-31',
             'name': 'Contract for Jared 2016',
             'wage': salary,
             'type_id': self.ref('hr_contract.hr_contract_type_emp'),

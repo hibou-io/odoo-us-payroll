@@ -16,7 +16,7 @@ class TestUsPayslip2016(TestUsPayslip):
     def test_2016_taxes(self):
         # salary is high so that second payslip runs over max
         # social security salary
-        salary = 80000.0;
+        salary = 80000.0
 
         ## tax rates
         FICA_SS = -0.062
