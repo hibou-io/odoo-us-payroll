@@ -1,31 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-<!-- CONTRIBUTION REGISTERS -->
-    <record id="res_partner_fldor" model="res.partner">
-        <field name="name">Florida Department of Revenue</field>
-        <field name="supplier">1</field>
-        <field eval="0" name="customer"/>
-    </record>
-    <record id="contrib_register_fldor" model="hr.contribution.register">
-        <field name="name">Florida Unemployment</field>
-        <field name="note">Florida Department of Revenue - Unemployment</field>
-        <field name="partner_id" ref="res_partner_fldor"/>
-    </record>
-
-
-<!-- HR SALARY RULE CATEGORIES-->
-    <record id="hr_payroll_fl_unemp_wages" model="hr.salary.rule.category">
-        <field name="name">Florida Unemployment - Wages</field>
-        <field name="code">FL_UNEMP_WAGES</field>
-    </record>
-
-    <record id="hr_payroll_fl_unemp" model="hr.salary.rule.category">
-        <field name="name">Florida Unemployment</field>
-        <field name="code">FL_UNEMP</field>
-        <field name="parent_id" ref="hr_payroll.COMP"/>
-    </record>
-
 
 <!-- HR SALARY RULES-->
     <record id="hr_payroll_rules_fl_unemp_wages_2016" model="hr.salary.rule">
@@ -66,18 +41,6 @@ if result_rate == 0.0:
         </field>
         <field name="register_id" ref="contrib_register_fldor"/>
         <field name="appears_on_payslip" eval="False"/>
-    </record>
-
-<!-- HR PAYROLL STRUCTURE -->
-    <record id="hr_payroll_salary_structure_us_fl_employee" model="hr.payroll.structure">
-        <field name="code">US_FL_EMP</field>
-        <field name="name">USA Florida Employee</field>
-        <field eval="[(6, 0, [
-          ref('hr_payroll_rules_fl_unemp_wages_2016'),
-          ref('hr_payroll_rules_fl_unemp_2016'),
-          ])]" name="rule_ids"/>
-        <field name="company_id" ref="base.main_company"/>    
-        <field name="parent_id" ref="l10n_us_hr_payroll.hr_payroll_salary_structure_us_employee"/>
     </record>
 
     </data>

@@ -19,7 +19,9 @@ USA::Florida Payroll Rules.
     'website': 'https://hibou.io/',
     'data':[
         'us_fl_hr_payroll_view.xml',
-        'us_fl_hr_payroll_data.xml',
+        'data/base.xml',
+        'data/rules_2016.xml',
+        'data/final.xml',
     ],
     'installable': True
 }

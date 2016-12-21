@@ -21,7 +21,9 @@ USA::Ohio Payroll Rules.
     'website': 'https://hibou.io/',
     'data':[
         'hr_payroll_view.xml',
-        'hr_payroll_data.xml',
+        'data/base.xml',
+        'data/rules_2016.xml',
+        'data/final.xml',
     ],
     'installable': True
 }

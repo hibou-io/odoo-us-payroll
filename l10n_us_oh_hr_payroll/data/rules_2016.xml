@@ -1,47 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-<!-- CONTRIBUTION REGISTERS -->
-    <record id="res_partner_ohdor_unemp" model="res.partner">
-        <field name="name">Ohio OBG - Unemployment</field>
-        <field name="supplier">1</field>
-        <field eval="0" name="customer"/>
-    </record>
-    <record id="res_partner_ohdor_withhold" model="res.partner">
-        <field name="name">Ohio OBG - Income Withholding</field>
-        <field name="supplier">1</field>
-        <field eval="0" name="customer"/>
-    </record>
-    <record id="contrib_register_ohdor_unemp" model="hr.contribution.register">
-        <field name="name">Ohio Unemployment</field>
-        <field name="note">Ohio Treasurer of State - Unemployment</field>
-        <field name="partner_id" ref="res_partner_ohdor_unemp"/>
-    </record>
-    <record id="contrib_register_ohdor_withhold" model="hr.contribution.register">
-        <field name="name">Ohio Income Tax Withholding</field>
-        <field name="note">Ohio Treasurer of State - Income Tax Withholding</field>
-        <field name="partner_id" ref="res_partner_ohdor_withhold"/>
-    </record>
-
-
-<!-- HR SALARY RULE CATEGORIES-->
-    <record id="hr_payroll_oh_unemp_wages" model="hr.salary.rule.category">
-        <field name="name">Ohio Unemployment - Wages</field>
-        <field name="code">OH_UNEMP_WAGES</field>
-    </record>
-
-    <record id="hr_payroll_oh_unemp" model="hr.salary.rule.category">
-        <field name="name">Ohio Unemployment</field>
-        <field name="code">OH_UNEMP</field>
-        <field name="parent_id" ref="hr_payroll.COMP"/>
-    </record>
-
-    <record id="hr_payroll_oh_income_withhold" model="hr.salary.rule.category">
-        <field name="name">Ohio Income Withholding</field>
-        <field name="code">OH_INC_WITHHOLD</field>
-        <field name="parent_id" ref="hr_payroll.DED"/>
-    </record>
-
 
 <!-- HR SALARY RULES-->
     <record id="hr_payroll_rules_oh_unemp_wages_2016" model="hr.salary.rule">
@@ -136,19 +95,6 @@ else:
 result = -WD
         </field>
         <field name="register_id" ref="contrib_register_ohdor_withhold"/>
-    </record>
-
-<!-- HR PAYROLL STRUCTURE -->
-    <record id="hr_payroll_salary_structure_us_oh_employee" model="hr.payroll.structure">
-        <field name="code">US_OH_EMP</field>
-        <field name="name">USA Ohio Employee</field>
-        <field eval="[(6, 0, [
-          ref('hr_payroll_rules_oh_unemp_wages_2016'),
-          ref('hr_payroll_rules_oh_unemp_2016'),
-          ref('hr_payroll_rules_oh_inc_withhold_2016'),
-          ])]" name="rule_ids"/>
-        <field name="company_id" ref="base.main_company"/>    
-        <field name="parent_id" ref="l10n_us_hr_payroll.hr_payroll_salary_structure_us_employee"/>
     </record>
 
     </data>
