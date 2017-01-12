@@ -10,7 +10,7 @@
         <field name="name">FICA Employee Social Security Wages (2016)</field>
         <field name="code">FICA_EMP_SS_WAGES_2016</field>
         <field name="condition_select">python</field>
-        <field name="condition_python">result = (payslip.date_from[:4] == '2016')</field>
+        <field name="condition_python">result = (payslip.date_to[:4] == '2016')</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
 ###
@@ -32,7 +32,7 @@ else:
         <field name="name">FICA Employee Medicare Wages (2016)</field>
         <field name="code">FICA_EMP_M_WAGES_2016</field>
         <field name="condition_select">python</field>
-        <field name="condition_python">result = (payslip.date_from[:4] == '2016')</field>
+        <field name="condition_python">result = (payslip.date_to[:4] == '2016')</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">result = categories.GROSS</field>
         <field name="appears_on_payslip" eval="False"/>
@@ -43,7 +43,7 @@ else:
         <field name="name">FICA Employee Medicare Additional Wages (2016)</field>
         <field name="code">FICA_EMP_M_ADD_WAGES_2016</field>
         <field name="condition_select">python</field>
-        <field name="condition_python">result = (payslip.date_from[:4] == '2016')</field>
+        <field name="condition_python">result = (payslip.date_to[:4] == '2016')</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
 ###
@@ -68,7 +68,7 @@ else:
         <field name="name">FICA Employee Social Security (2016)</field>
         <field name="code">FICA_EMP_SS_2016</field>
         <field name="condition_select">python</field>
-        <field name="condition_python">result = (payslip.date_from[:4] == '2016')</field>
+        <field name="condition_python">result = (payslip.date_to[:4] == '2016')</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
 ###  this should be "rules.FICA_EMP_SS_WAGES_2016", but it doesn't work
@@ -83,7 +83,7 @@ result = categories.FICA_EMP_SS_WAGES
         <field name="name">FICA Employee Medicare (2016)</field>
         <field name="code">FICA_EMP_M_2016</field>
         <field name="condition_select">python</field>
-        <field name="condition_python">result = (payslip.date_from[:4] == '2016')</field>
+        <field name="condition_python">result = (payslip.date_to[:4] == '2016')</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
 ###  this should be "rules.FICA_EMP_M_WAGES_2016", but it doesn't work
@@ -98,7 +98,7 @@ result = categories.FICA_EMP_M_WAGES
         <field name="name">FICA Employee Medicare Additional (2016)</field>
         <field name="code">FICA_EMP_M_ADD_2016</field>
         <field name="condition_select">python</field>
-        <field name="condition_python">result = (payslip.date_from[:4] == '2016')</field>
+        <field name="condition_python">result = (payslip.date_to[:4] == '2016')</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
 ###  this should be "rules.FICA_EMP_M_ADD_WAGES_2016", but it doesn't work
@@ -115,7 +115,7 @@ result = categories.FICA_EMP_M_ADD_WAGES
         <field name="name">Federal Income Withholding - Single (2016)</field>
         <field name="code">FED_INC_WITHHOLD_2016_S</field>
         <field name="condition_select">python</field>
-        <field name="condition_python">result = (payslip.date_from[:4] == '2016' and contract.w4_filing_status != 'married' and contract.w4_filing_status)</field>
+        <field name="condition_python">result = (payslip.date_to[:4] == '2016' and contract.w4_filing_status != 'married' and contract.w4_filing_status)</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
 wages = categories.GROSS
@@ -341,7 +341,7 @@ result = -(val + additional)
         <field name="name">Federal Income Withholding - Married (2016)</field>
         <field name="code">FED_INC_WITHHOLD_2016_M</field>
         <field name="condition_select">python</field>
-        <field name="condition_python">result = (payslip.date_from[:4] == '2016' and contract.w4_filing_status == 'married')</field>
+        <field name="condition_python">result = (payslip.date_to[:4] == '2016' and contract.w4_filing_status == 'married')</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
 wages = categories.GROSS
@@ -568,7 +568,7 @@ result = -(val + additional)
         <field name="name">FUTA Federal Unemployment - Wages (2016)</field>
         <field name="code">FUTA_WAGES_2016</field>
         <field name="condition_select">python</field>
-        <field name="condition_python">result = (payslip.date_from[:4] == '2016' and contract.futa_type != contract.FUTA_TYPE_EXEMPT)</field>
+        <field name="condition_python">result = (payslip.date_to[:4] == '2016' and contract.futa_type != contract.FUTA_TYPE_EXEMPT)</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
 ###
@@ -590,7 +590,7 @@ else:
         <field name="name">FUTA Federal Unemployment (2016)</field>
         <field name="code">FUTA_2016</field>
         <field name="condition_select">python</field>
-        <field name="condition_python">result = (payslip.date_from[:4] == '2016' and contract.futa_type != contract.FUTA_TYPE_EXEMPT)</field>
+        <field name="condition_python">result = (payslip.date_to[:4] == '2016' and contract.futa_type != contract.FUTA_TYPE_EXEMPT)</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
 result_rate = -(contract.futa_rate_2016)
